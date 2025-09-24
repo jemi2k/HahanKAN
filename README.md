@@ -13,7 +13,7 @@ The datasets are hosted on Google Drive by Autoformer. Please download them and 
 👉 [Access the Datasets on Google Drive](https://drive.google.com/drive/folders/1ZOYpTUa82_jCcxIdTmyr0LXQfvaM9vIy)
 
 ### Experiments
-If you want to run an experiment, just run the following script and edit it as you need. By default, the look-back window is 96.
+If you want to run an experiment, just run the following script and edit it as you need. This script is for the look-back window is 96.
 <pre><code>sh ./scripts/SHORT/etth1.sh</code></pre>
 If you want to run an experiment for the look-back window 336, you should run the following script:
 <pre><code>sh ./scripts/LONG/etth1.sh</code></pre>
