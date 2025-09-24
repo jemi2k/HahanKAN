@@ -1,5 +1,5 @@
 # HaKAN
-**Time Series Forecasting with Hahn-Activated Kolmogorov-Arnold Networks**
+**Time Series Forecasting with Hahn Kolmogorov-Arnold Networks**
 
 This repository contains the code for our project on long-term time series forecasting.
 
