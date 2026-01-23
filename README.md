@@ -5,7 +5,7 @@ This repository contains the code for our project on long-term time series forec
 
 <h3>Architecture</h3>
 <p align="center">
-  <img src="Figures/Arc.png" alt="HaKAN Architecture" width="700"/>
+  <img src="Architecture/Arc.png" alt="HaKAN Architecture" width="700"/>
 </p>
 
 ### Requirements
