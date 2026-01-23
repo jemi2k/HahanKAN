@@ -4,6 +4,7 @@
 This repository contains the code for our project on long-term time series forecasting.
 
 <h3>Architecture</h3>
+The model integrates channel independence, reversible instance normalization, and patching, followed by patch and position embeddings. A stack of $R$ Hahn-KAN blocks, each with intra-patch and inter-patch KAN layers using Hahn polynomials, processes the embedded sequence to capture temporal patterns. The output is mapped through a bottleneck structure with two fully connected layers to produce the final forecast.
 <p align="center">
   <img src="Architecture/Arc.png" alt="HaKAN Architecture" width="700"/>
 </p>
