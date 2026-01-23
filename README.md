@@ -19,3 +19,16 @@ If you want to run an experiment for the look-back window 336, you should run th
 <pre><code>sh ./scripts/LONG/etth1.sh</code></pre>
 
 
+### 📄 Citation
+
+If you use this work, please cite:
+
+```bibtex
+@inproceedings{Hasanetal-2026-HaKAN,
+  title     = {HaKAN: Time Series Forecasting with Hahn Kolmogorov-Arnold Networks},
+  author    = {Hasan, Md Zahidul and
+               Ben Hamza, Abdessamad and
+               Bouguila, Nizar},
+  booktitle = {Proceedings of the International Conference on Artificial Intelligence and Statistics},
+  year      = {2026}
+}
