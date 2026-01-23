@@ -38,6 +38,21 @@ If you want to run an experiment, just run the following script and edit it as y
 If you want to run an experiment for the look-back window 336, you should run the following script:
 <pre><code>sh ./scripts/LONG/etth1.sh</code></pre>
 
+### 🙏 Acknowledgements
+
+We gratefully acknowledge the following repositories and authors whose work inspired or supported our research:
+
+- 🔗 [ZimingLiu/Kolmogorov-Arnold-Network](https://github.com/KindXiaoming/pykan)  
+  Provided the foundational implementation of Kolmogorov-Arnold Networks (KANs).
+
+- 🧠 [YuqiNie/PatchTST](https://github.com/yuqinie98/PatchTST)  
+  Served as a strong baseline for comparison in multivariate time series forecasting.
+
+---
+
+We appreciate the open-source contributions that helped make this work possible.
+
+
 
 ### 📄 Citation
 
