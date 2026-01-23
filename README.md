@@ -3,6 +3,11 @@
 
 This repository contains the code for our project on long-term time series forecasting.
 
+<h3>Architecture</h3>
+<p align="center">
+  <img src="Figures/Arc.png" alt="HaKAN Architecture" width="700"/>
+</p>
+
 ### Requirements
 <pre><code>pip install numpy==1.24.3 matplotlib==3.7.2 pandas==2.0.3 scikit-learn==1.3.0 torch==2.4.1+cu121 </code></pre>
 
