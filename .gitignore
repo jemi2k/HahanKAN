@@ -1,0 +1,14 @@
+.vscode/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Training outputs
+checkpoints/
+results/
+test_results/
+result.txt
+
+# Virtual environments
+.venv/
+venv/
