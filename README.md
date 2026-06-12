@@ -57,12 +57,22 @@ To prevent overparameterization and noise injection across the dual-streams, we 
 
 By adapting the core architecture into a regularized multi-scale design, the model achieves noticeable improvements over the single-scale benchmark baselines:
 
-* **Hang Seng Index (Custom Financial Asset):** Single-Scale Baseline MSE `0.7467` $\rightarrow$ **MS-HaKAN Optimized MSE 0.7366** (MAE optimized to **0.5222**).
-* **ETTm1 (Standard Benchmark Dataset):** Single-Scale Baseline MSE `0.3840` $\rightarrow$ **MS-HaKAN Optimized MSE 0.3802**.
+* **Hang Seng Index (Custom Financial Asset):** Single-Scale Baseline MSE 0.7467 $\rightarrow$ **MS-HaKAN Optimized MSE 0.7366** (MAE optimized to **0.5222**).
+* **ETTm1 (Standard Benchmark Dataset):** Single-Scale Baseline MSE 0.3840 $\rightarrow$ **MS-HaKAN Optimized MSE 0.3802**.
 
 ---
 
-## 🚀 Getting Started
+💡 **Methodological Note on Error Magnitude (HSI Dataset Constraints):**
+
+It is important to highlight that the absolute baseline error metrics for the HSI asset are naturally higher than those observed on the ETTm1 physical benchmark. This is a direct consequence of the data constraints inherent to the asset type and its time-step resolution:
+
+1. **Low Sample Size / Small Dataset:** Unlike minutely or hourly datasets (like the electricity benchmarks) which offer tens of thousands of continuous telemetry steps, daily financial index data yields only roughly 250 rows per calendar year. This creates a challenging, data-constrained learning environment for deep architectures.
+2. **High Signal-to-Noise Ratio:** Daily market prices are heavily influenced by non-stationary macroeconomic signals and sudden behavioral anomalies. 
+
+Because the baseline error for daily equity forecasting starts at an elevated threshold, the true benchmark of structural validity is not the absolute value itself, but rather the **relative performance optimization**. Our regularized Multi-Scale model successfully achieves a clean error reduction over the unregularized single-scale baseline under identical historical constraints.
+---
+
+## Getting Started
 
 ### 1. Installation
 Clone the repository and install dependencies:
