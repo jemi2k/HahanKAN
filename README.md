@@ -1,18 +1,32 @@
-# HaKAN
-**Time Series Forecasting with Hahn Kolmogorov-Arnold Networks**
+# MS-HaKAN: Multi-Scale Hahn Kolmogorov-Arnold Networks for Time-Series Forecasting
+
+An optimized, dual-stream extension of the HaKAN architecture specifically enhanced to handle high-noise financial time-series data like the Hang Seng Index (HSI) along with standard physical benchmarks. By incorporating Multi-Scale Patching, Series Decomposition, and Capacity Regularization, this implementation successfully scales the performance of edge-based polynomial networks.
+
+---
+
+## 📄 Acknowledgements & Citations
+
+This repository builds directly upon the foundational work of the Hahn-KAN framework. 
+
+* **Original Paper:** *HaKAN: Time Series Forecasting with Hahn Kolmogorov-Arnold Networks* (Hasan et al., 2026).
+* **Original Codebase:** `[Insert Link to Original HaKAN Repository Here]`
+
+---
+
+## **Time Series Forecasting with Hahn Kolmogorov-Arnold Networks**
 
 This repository contains the code for our project on long-term time series forecasting.
 
 <h3>Architecture</h3>
 The model integrates channel independence, reversible instance normalization, and patching, followed by patch and position embeddings. A stack of R Hahn-KAN blocks, each with intra-patch and inter-patch KAN layers using Hahn polynomials, processes the embedded sequence to capture temporal patterns. The output is mapped through a bottleneck structure with two fully connected layers to produce the final forecast.
+
 <p align="center">
   <img src="Architecture/Arc.png" alt="HaKAN Architecture" width="700"/>
 </p>
 
 ### 📊 Long-term Forecasting Results (Avg. MSE, MAE)
 
-**Look-back = 96**, averaged over **T ∈ {96, 192, 336, 720}**  
-Lower is better.
+**Look-back = 96**, averaged over **T ∈ {96, 192, 336, 720}** Lower is better.
 
 | Dataset | **HaKAN** | S-Mamba | iTrans | RLinear | PatchTST | Crossf. | TiDE | TimesNet | FEDformer |
 |--------|-----------|---------|--------|---------|----------|---------|------|-----------|-----------|
@@ -23,47 +37,35 @@ Lower is better.
 
 📌 Format: **MSE (MAE)**.
 
-### Requirements
-<pre><code>pip install numpy==1.24.3 matplotlib==3.7.2 pandas==2.0.3 scikit-learn==1.3.0 torch==2.4.1+cu121 </code></pre>
+---
 
-### Datasets
-------
-The datasets are hosted on Google Drive by Autoformer. Please download them and place them in the `./datasets/` directory before running the experiments.
+## 🛠️ Our Proposed Extension: Multi-Scale HaKAN (MS-HaKAN)
 
-👉 [Access the Datasets on Google Drive](https://drive.google.com/drive/folders/1ZOYpTUa82_jCcxIdTmyr0LXQfvaM9vIy)
+While uniform temporal patching works efficiently on physical benchmarks, volatile market indices carry competing high-frequency noise and low-frequency macro trends. 
 
-### Experiments
-If you want to run an experiment, just run the following script and edit it as you need. This script is for the look-back window is 96.
-<pre><code>sh ./scripts/SHORT/etth1.sh</code></pre>
-If you want to run an experiment for the look-back window 336, you should run the following script:
-<pre><code>sh ./scripts/LONG/etth1.sh</code></pre>
+Our updated architecture introduces a **Dual-Stream Multi-Scale Patching Pipeline** to resolve this operational tradeoff:
+* **Macro Perspective Stream:** Extracts long-term cyclic features using a larger window structure (Patch 16, Stride 8).
+* **Micro Perspective Stream:** Captures short-term transactional shifts using finer graining (Patch 8, Stride 4).
 
-### 🙏 Acknowledgements
+To prevent overparameterization and noise injection across the dual-streams, we integrated an inline **Series Decomposition** block to isolate Trend and Residual fields, alongside an optimized **Capacity Bottleneck** restricting model dimensions to `d_model = 128` and `d_ff = 512`.
 
-We gratefully acknowledge the following repositories and authors whose work inspired or supported our research:
+<p align="center">
+  <img src="Architecture/MSHaKAN.png" alt="MS-HaKAN Multi-Scale Architecture" width="700"/>
+</p>
 
-- 🔗 [ZimingLiu/Kolmogorov-Arnold-Network](https://github.com/KindXiaoming/pykan)  
-  Provided the foundational implementation of Kolmogorov-Arnold Networks (KANs).
+### 📈 Final Optimized Performance Summary
 
-- 🧠 [YuqiNie/PatchTST](https://github.com/yuqinie98/PatchTST)  
-  Served as a strong baseline for comparison in multivariate time series forecasting.
+By adapting the core architecture into a regularized multi-scale design, the model achieves noticeable improvements over the single-scale benchmark baselines:
+
+* **Hang Seng Index (Custom Financial Asset):** Single-Scale Baseline MSE `0.7467` $\rightarrow$ **MS-HaKAN Optimized MSE 0.7366** (MAE optimized to **0.5222**).
+* **ETTm1 (Standard Benchmark Dataset):** Single-Scale Baseline MSE `0.3840` $\rightarrow$ **MS-HaKAN Optimized MSE 0.3802**.
 
 ---
 
-We appreciate the open-source contributions that helped make this work possible.
+## 🚀 Getting Started
 
-
-
-### 📄 Citation
-
-If you use this work, please cite:
-
-```bibtex
-@inproceedings{Hasanetal-2026-HaKAN,
-  title     = {HaKAN: Time Series Forecasting with Hahn Kolmogorov-Arnold Networks},
-  author    = {Hasan, Md Zahidul and
-               Ben Hamza, Abdessamad and
-               Bouguila, Nizar},
-  booktitle = {Proceedings of the International Conference on Artificial Intelligence and Statistics},
-  year      = {2026}
-}
+### 1. Installation
+Clone the repository and install dependencies:
+```bash
+git clone [https://github.com/jemi2k/HahanKAN.git](https://github.com/jemi2k/HahanKAN.git)
+cd HahanKAN
