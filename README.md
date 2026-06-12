@@ -9,7 +9,7 @@ An optimized, dual-stream extension of the HaKAN architecture specifically enhan
 This repository builds directly upon the foundational work of the Hahn-KAN framework. 
 
 * **Original Paper:** *HaKAN: Time Series Forecasting with Hahn Kolmogorov-Arnold Networks* (Hasan et al., 2026).
-* **Original Codebase:** `https://github.com/zadidhasan/HaKAN`
+* **Original Codebase:** `[https://github.com/zadidhasan/HaKAN]`
 
 ---
 
