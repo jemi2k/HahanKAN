@@ -1,9 +1,12 @@
 from data_provider.data_factory import data_provider
 from exp.exp_basic import Exp_Basic
 
+# 1. UPDATED IMPORTS: Aliased models cleanly to differentiate them
+from model.hakan import Model as HaKAN
+from model.mshakan import Model as MS_HaKAN
+
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
 from utils.metrics import metric
-from model.hakan import Model
 import numpy as np
 import torch
 import torch.nn as nn
@@ -14,7 +17,6 @@ import time
 
 import warnings
 import matplotlib.pyplot as plt
-import numpy as np
 
 warnings.filterwarnings('ignore')
 
@@ -23,13 +25,34 @@ class Exp_Main(Exp_Basic):
     def __init__(self, args):
         super(Exp_Main, self).__init__(args)
 
+    # 2. UPDATED METHOD: Routes instantiation depending on --model command line flag
     def _build_model(self):
-        model = Model(c_in = self.args.enc_in, context_window = self.args.seq_len, target_window = self.args.pred_len, patch_len = self.args.patch_len, d_model = self.args.d_model, stride = self.args.stride)
+        if self.args.model == 'MS_HaKAN':
+            model = MS_HaKAN(
+                c_in=self.args.enc_in, 
+                context_window=self.args.seq_len, 
+                target_window=self.args.pred_len, 
+                patch_len=self.args.patch_len, 
+                stride=self.args.stride,
+                d_model=self.args.d_model,
+                # Safe checking in case you run the old train script without these flags
+                patch_len_2=getattr(self.args, 'patch_len_2', 8),
+                stride_2=getattr(self.args, 'stride_2', 4)
+            )
+        else:
+            # Default fallback to your original single-scale model framework
+            model = HaKAN(
+                c_in=self.args.enc_in, 
+                context_window=self.args.seq_len, 
+                target_window=self.args.pred_len, 
+                patch_len=self.args.patch_len, 
+                d_model=self.args.d_model, 
+                stride=self.args.stride
+            )
 
         if self.args.use_multi_gpu and self.args.use_gpu:
             model = nn.DataParallel(model, device_ids=self.args.device_ids)
 
-        # print(f"Number of trainable parameters: {self.count_parameters(model):,}")
         return model
 
     def count_parameters(self, model):
@@ -102,7 +125,6 @@ class Exp_Main(Exp_Basic):
                                             pct_start = self.args.pct_start,
                                             epochs = self.args.train_epochs,
                                             max_lr = self.args.learning_rate)
-
 
         for epoch in range(self.args.train_epochs):
             iter_count = 0
@@ -185,7 +207,6 @@ class Exp_Main(Exp_Basic):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
-
         self.model.eval()
         with torch.no_grad():
             for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(test_loader):
@@ -195,10 +216,8 @@ class Exp_Main(Exp_Basic):
                 batch_x_mark = batch_x_mark.float().to(self.device)
                 batch_y_mark = batch_y_mark.float().to(self.device)
 
-
                 dec_inp = torch.zeros_like(batch_y[:, -self.args.pred_len:, :]).float()
                 dec_inp = torch.cat([batch_y[:, :self.args.label_len, :], dec_inp], dim=1).float().to(self.device)
-
 
                 outputs = self.model(batch_x)
 
@@ -221,7 +240,7 @@ class Exp_Main(Exp_Basic):
                     visual(gt, pd, os.path.join(folder_path, str(i) + '.pdf'))
 
         if self.args.test_flop:
-            test_params_flop((batch_x.shape[1],batch_x.shape[2]))
+            test_params_flop((batch_x.shape[1], batch_x.shape[2]))
             exit()
         preds = np.array(preds)
         trues = np.array(trues)
@@ -270,7 +289,7 @@ class Exp_Main(Exp_Basic):
                 dec_inp = torch.cat([batch_y[:, :self.args.label_len, :], dec_inp], dim=1).float().to(self.device)
 
                 outputs = self.model(batch_x)
-                pred = outputs.detach().cpu().numpy()  # .squeeze()
+                pred = outputs.detach().cpu().numpy()
                 preds.append(pred)
 
         preds = np.array(preds)
@@ -282,5 +301,4 @@ class Exp_Main(Exp_Basic):
             os.makedirs(folder_path)
 
         np.save(folder_path + 'real_prediction.npy', preds)
-
         return

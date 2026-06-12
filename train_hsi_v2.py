@@ -1,8 +1,3 @@
-"""
-Training script v2 - Optimized parameters for better performance
-Reduced batch size, increased epochs, better learning rate
-"""
-
 import argparse
 import os
 import torch
